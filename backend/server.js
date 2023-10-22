@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 
 //DB 테이블에 있는 모든데이터를 프론트 서버에 보내주기
 app.get('/api/values',function(req,res){
+    console.log("데이터 조회 요청 IN")
+
     //데이터베이스에서 모든 정보 가져오기
     db.pool.query('SELECT * FROM lists;',
     (err,results,fields) => {
@@ -28,6 +30,7 @@ app.get('/api/values',function(req,res){
 
 // 클라이언트에서 입력한 값을 데이터베이스 리스트 테이블에 넣어주기 
 app.post('/api/value',function(req,res,next){
+    console.log("데이터 삽입 요청 IN")
     db.pool.query(`INSERT INTO lists(value) VALUES("${req.body.value}");`,
     (err,results,fields)=>{
         if(err){
