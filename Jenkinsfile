@@ -5,6 +5,8 @@ pipeline{
         dockerHubRegistry = 'lordofkangs'
         dockerHubRegistryCredential = 'docker-hub'
         githubCredential = 'k8s_manifest_git'
+        gitEmail = 'lordofkangs@naver.com'
+        gitName = 'mgKang3646'
     }
 
     stages {
@@ -92,14 +94,15 @@ pipeline{
                     credentialsId: githubCredential,
                     url: 'https://github.com/mgKang3646/Helm-Repository.git'
 
+                    sh "git config --global user.email ${gitEmail}"
+                    sh "git config --global user.name ${gitName}"
+
                     sh "sed -i 's/tag:.*\$/tag: ${currentBuild.number}/g' ./mysql-db/values.yaml"
                     sh "sed -i 's/tag:.*\$/tag: ${currentBuild.number}/g' ./nodejs-backend/values.yaml"
                     sh "sed -i 's/tag:.*\$/tag: ${currentBuild.number}/g' ./react-frontend/values.yaml"
 
                     sh "git add ."
                     sh "git commit -m '[UPDATE] k8s ${currentBuild.number} image versioning'"
-                    sh "git config --global user.email 'lordofkangs@naver.com'"
-                    sh "git config --global user.name 'mgKang3646'"
 
                     withCredentials([gitUsernamePassword(credentialsId: githubCredential,
                                      gitToolName: 'git-tool')]) {
