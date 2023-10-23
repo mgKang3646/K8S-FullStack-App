@@ -100,9 +100,16 @@ pipeline{
                     sh "sed -i 's/tag:.*\$/tag: ${currentBuild.number}/g' ./mysql-db/values.yaml"
                     sh "sed -i 's/tag:.*\$/tag: ${currentBuild.number}/g' ./nodejs-backend/values.yaml"
                     sh "sed -i 's/tag:.*\$/tag: ${currentBuild.number}/g' ./react-frontend/values.yaml"
+                    
+                    sh "helm package react-frontend"
+                    sh "helm package nodejs-backend"
+                    sh "helm package mysql-db"
+                    sh "helm repo index ./"
 
                     sh "git add ."
                     sh "git commit -m '[UPDATE] k8s ${currentBuild.number} image versioning'"
+
+
 
                     withCredentials([gitUsernamePassword(credentialsId: githubCredential,
                                      gitToolName: 'git-tool')]) {
