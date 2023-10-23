@@ -101,8 +101,6 @@ pipeline{
                     sh "git config --global user.email \"lordofkangs@naver.com\""
                     sh "git config --global user.name \"mgKang3646\""
 
-                    
-
                     withCredentials([gitUsernamePassword(credentialsId: githubCredential,
                                      gitToolName: 'git-tool')]) {
                         sh "git remote set-url origin https://github.com/mgKang3646/Helm-Repository.git"
