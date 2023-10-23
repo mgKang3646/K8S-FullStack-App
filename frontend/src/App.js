@@ -6,6 +6,7 @@ import axios from 'axios';
 function App() {
 
   useEffect(()=>{
+    // 여기서 db에 있는 값을 가져옴
     axios.get('/api/values').then(response => {
       console.log('response',response)
       setLists(Object.values(response.data))
