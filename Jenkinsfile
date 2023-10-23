@@ -99,7 +99,7 @@ pipeline{
                     sh "git add ."
                     sh "git commit -m '[UPDATE] k8s ${currentBuild.number} image versioning'"
                     sh "git config --global user.email lordofkangs@naver.com"
-                    sg "git config --global user.name mgKang3646"
+                    sh "git config --global user.name mgKang3646"
 
                     
 
