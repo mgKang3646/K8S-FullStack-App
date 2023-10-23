@@ -36,7 +36,7 @@ pipeline{
                 sh "docker build -t ${dockerHubRegistry}/${imageBackend}:latest ./backend"
 
                 sh "docker build -t ${dockerHubRegistry}/${imageMysql}:${currentBuild.number} ./mysql"
-                sh "docker build -t ${dockerHubRegistry}/${imageMysql}::latest ./mysql"
+                sh "docker build -t ${dockerHubRegistry}/${imageMysql}:latest ./mysql"
             }
             post {
                     failure {
