@@ -7,6 +7,9 @@ pipeline{
         githubCredential = 'k8s_manifest_git'
         gitEmail = 'lordofkangs@naver.com'
         gitName = 'mgKang3646'
+        imageFrontend = 'k8s_frontend'
+        imageBackend = 'k8s_backend'
+        imageMysql= 'k8s_mysql'
     }
 
     stages {
@@ -26,14 +29,14 @@ pipeline{
 
         stage('docker image build'){
             steps{
-                sh "docker build -t ${dockerHubRegistry}/frontend:${currentBuild.number} ./frontend"
-                sh "docker build -t ${dockerHubRegistry}/frontend:latest ./frontend"
+                sh "docker build -t ${dockerHubRegistry}/${imageFrontend}:${currentBuild.number} ./frontend"
+                sh "docker build -t ${dockerHubRegistry}/${imageFrontend}:latest ./frontend"
 
-                sh "docker build -t ${dockerHubRegistry}/backend:${currentBuild.number} ./backend"
-                sh "docker build -t ${dockerHubRegistry}/backend:latest ./backend"
+                sh "docker build -t ${dockerHubRegistry}/${imageBackend}:${currentBuild.number} ./backend"
+                sh "docker build -t ${dockerHubRegistry}/${imageBackend}:latest ./backend"
 
-                sh "docker build -t ${dockerHubRegistry}/mysql:${currentBuild.number} ./mysql"
-                sh "docker build -t ${dockerHubRegistry}/mysql:latest ./mysql"
+                sh "docker build -t ${dockerHubRegistry}/${imageMysql}:${currentBuild.number} ./mysql"
+                sh "docker build -t ${dockerHubRegistry}/${imageMysql}::latest ./mysql"
             }
             post {
                     failure {
@@ -47,14 +50,14 @@ pipeline{
         stage('Docker Image Push') {
             steps {
                 withDockerRegistry([ credentialsId: dockerHubRegistryCredential, url: "" ]) {
-                    sh "docker push ${dockerHubRegistry}/frontend:${currentBuild.number}"
-                    sh "docker push ${dockerHubRegistry}/frontend:latest"
+                    sh "docker push ${dockerHubRegistry}/${imageFrontend}:${currentBuild.number}"
+                    sh "docker push ${dockerHubRegistry}/${imageFrontend}:latest"
 
-                    sh "docker push ${dockerHubRegistry}/backend:${currentBuild.number}"
-                    sh "docker push ${dockerHubRegistry}/backend:latest"
+                    sh "docker push ${dockerHubRegistry}/${imageBackend}:${currentBuild.number}"
+                    sh "docker push ${dockerHubRegistry}/${imageBackend}:latest"
 
-                    sh "docker push ${dockerHubRegistry}/mysql:${currentBuild.number}"
-                    sh "docker push ${dockerHubRegistry}/mysql:latest"
+                    sh "docker push ${dockerHubRegistry}/${imageMysql}:${currentBuild.number}"
+                    sh "docker push ${dockerHubRegistry}/${imageMysql}:latest"
 
                     sleep 10 /* Wait uploading */
                 }
@@ -62,25 +65,25 @@ pipeline{
             post {
                     failure {
                       echo 'Docker Image Push failure !'
-                      sh "docker rmi ${dockerHubRegistry}/frontend:${currentBuild.number}"
-                      sh "docker rmi ${dockerHubRegistry}/frontend:latest"
+                      sh "docker rmi ${dockerHubRegistry}/${imageFrontend}:${currentBuild.number}"
+                      sh "docker rmi ${dockerHubRegistry}/${imageFrontend}:latest"
 
-                      sh "docker rmi ${dockerHubRegistry}/backend:${currentBuild.number}"
-                      sh "docker rmi ${dockerHubRegistry}/backend:latest"
+                      sh "docker rmi ${dockerHubRegistry}/${imageBackend}:${currentBuild.number}"
+                      sh "docker rmi ${dockerHubRegistry}/${imageBackend}:latest"
 
-                      sh "docker rmi ${dockerHubRegistry}/mysql:${currentBuild.number}"
-                      sh "docker rmi ${dockerHubRegistry}/mysql:latest"
+                      sh "docker rmi ${dockerHubRegistry}/${imageMysql}:${currentBuild.number}"
+                      sh "docker rmi ${dockerHubRegistry}/${imageMysql}:latest"
                     }
                     success {
                       echo 'Docker image push success !'
-                      sh "docker rmi ${dockerHubRegistry}/frontend:${currentBuild.number}"
-                      sh "docker rmi ${dockerHubRegistry}/frontend:latest"
+                      sh "docker rmi ${dockerHubRegistry}/${imageFrontend}:${currentBuild.number}"
+                      sh "docker rmi ${dockerHubRegistry}/${imageFrontend}:latest"
 
-                      sh "docker rmi ${dockerHubRegistry}/backend:${currentBuild.number}"
-                      sh "docker rmi ${dockerHubRegistry}/backend:latest"
+                      sh "docker rmi ${dockerHubRegistry}/${imageBackend}:${currentBuild.number}"
+                      sh "docker rmi ${dockerHubRegistry}/${imageBackend}:latest"
 
-                      sh "docker rmi ${dockerHubRegistry}/mysql:${currentBuild.number}"
-                      sh "docker rmi ${dockerHubRegistry}/mysql:latest"
+                      sh "docker rmi ${dockerHubRegistry}/${imageMysql}:${currentBuild.number}"
+                      sh "docker rmi ${dockerHubRegistry}/${imageMysql}:latest"
                     }
             }
         }
