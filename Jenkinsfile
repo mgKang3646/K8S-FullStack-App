@@ -3,9 +3,9 @@ node {
          checkout scm
      }
      stage('Build image') {
-        frontend = docker.build("lordofkangs/frontend", "./frontend/")
-        backend = docker.build("lordofkangs/backend", "./backend/")
-        mysql = docker.build("lordofkangs/mysql", "./mysql/")
+        frontend = docker.build("lordofkangs/k8s_frontend", "./frontend/")
+        backend = docker.build("lordofkangs/k8s_backend", "./backend/")
+        mysql = docker.build("lordofkangs/k8smysql", "./mysql/")
      }
      stage('Push image') {
          docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
