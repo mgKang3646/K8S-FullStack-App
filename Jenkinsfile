@@ -4,7 +4,7 @@ pipeline{
     environment {
         dockerHubRegistry = 'lordofkangs'
         dockerHubRegistryCredential = 'docker-hub'
-        githubCredential = 'k8s_manifest_git'
+        githubCredential = 'github_cred'
         gitEmail = 'lordofkangs@naver.com'
         gitName = 'mgKang3646'
         imageFrontend = 'k8s_frontend'
