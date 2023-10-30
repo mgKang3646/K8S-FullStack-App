@@ -42,7 +42,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <div className="container">
-          <h2>K8S PROJECT!</h2>
+          <h2>K8S PROJECT</h2>
           {lists&&lists.map((list,index)=>(
             <li key={index}>{list.value}</li>
           ))}
